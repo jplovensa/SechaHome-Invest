@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECHA HOME - Precision Pitch Deck</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* THEME: TITANIUM DARK */
+        :root {
+            --bg-color: #000000;
+            --surface-glass: rgba(28, 28, 30, 0.6);
+            --surface-highlight: rgba(255, 255, 255, 0.03);
+            --border-subtle: rgba(255, 255, 255, 0.12);
+            
+            --text-primary: #FFFFFF;
+            --text-secondary: #86868B;
+            --text-tertiary: #505055;
+            
+            --accent-gold: #D4AF37;
+            --accent-gold-gradient: linear-gradient(135deg, #FCE38A 0%, #D4AF37 50%, #89660B 100%);
+            
+            --success: #30D158;
+            --danger: #FF453A;
+        }
+
+        body {
+            background-color: #050505;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        #deck-container {
+            transform-origin: top center;
+            padding: 40px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .slide {
+            width: 1920px;
+            height: 1080px;
+            background-color: var(--bg-color);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid #111;
+            display: flex;
+            flex-direction: column;
+            padding: 100px;
+            box-sizing: border-box;
+            page-break-after: always;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 120px 120px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        h1 {
+            font-size: 110px;
+            font-weight: 600;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            margin: 0 0 40px 0;
+            background: linear-gradient(180deg, #FFFFFF 0%, #A0A0A0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            z-index: 1;
+        }
+
+        h2 {
+            font-size: 56px;
+            font-weight: 500;
+            color: #FFF;
+            margin: 0 0 30px 0;
+            letter-spacing: -0.02em;
+            z-index: 1;
+        }
+
+        p, li {
+            font-size: 32px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 24px;
+            z-index: 1;
+        }
+
+        strong { color: #FFF; font-weight: 600; }
+
+        .tag {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1;
+        }
+
+        .tag::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--accent-gold);
+        }
+
+        .glass-card {
+            background: var(--surface-glass);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid var(--border-subtle);
+            border-radius: 32px;
+            padding: 50px;
+            z-index: 1;
+            box-shadow: 0 40px 100px -20px rgba(0,0,0,0.7);
+        }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; height: 100%; align-items: center; z-index: 1; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; height: 100%; z-index: 1; }
+
+        .stat-value {
+            font-size: 96px;
+            font-weight: 600;
+            color: #FFF;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 18px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 10px;
+        }
+
+        .mockup-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone {
+            width: 420px;
+            height: 840px;
+            background: #000;
+            border: 8px solid #1c1c1e;
+            border-radius: 60px;
+            box-shadow: 0 0 0 2px #333, 0 50px 100px -20px rgba(0,0,0,0.8);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .slide-footer {
+            position: absolute;
+            bottom: 60px;
+            left: 100px;
+            right: 100px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            font-size: 16px;
+            color: var(--text-tertiary);
+            z-index: 10;
+        }
+
+        @media print {
+            body { background: #000; margin: 0; }
+            #deck-container { transform: none !important; }
+            .slide { margin: 0; border: none; page-break-after: always; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="deck-container">
+
+    <!-- SLIDE 1: COVER - THE HOOK -->
+    <div class="slide">
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+            <div class="tag">SEED ROUND</div>
+            <h1>SECHA HOME</h1>
+            <p style="color: #FFF; font-size: 42px; max-width: 1200px; opacity: 0.9;">
+                The missing liquidity layer for the $50B secondary housing market.
+            </p>
+            <p style="font-size: 28px; margin-top: 40px; color: var(--accent-gold);">
+                Turning renovation from a cost center into a financial product.
+            </p>
+        </div>
+        <div class="slide-footer">
+            <span>JAKARTA • SINGAPORE</span>
+            <span>01</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: THE INSIGHT - ASYMMETRIC RISK -->
+    <div class="slide">
+        <div class="tag">THE INSIGHT</div>
+        <h1>The "Trust Gap"</h1>
+        <div class="grid-2">
+            <div>
+                <p style="font-size: 36px; color: #FFF; font-weight: 500;">70% of secondary homes are "Stranded Assets"—unlivable and unfinanceable.</p>
+                <div style="margin-top: 60px; display: flex; flex-direction: column; gap: 40px;">
+                    <div style="border-left: 4px solid var(--danger); padding-left: 30px;">
+                        <strong style="font-size: 24px; color: var(--danger);">The Bank's Blindspot</strong>
+                        <p style="margin-top: 10px;">Banks have capital, but <strong>zero visibility</strong> on renovation data. They cannot price the risk, so they reject the loan.</p>
+                    </div>
+                    <div style="border-left: 4px solid var(--text-secondary); padding-left: 30px;">
+                        <strong style="font-size: 24px;">The Contractor's Trap</strong>
+                        <p style="margin-top: 10px;">Contractors work cash-only because they don't trust homeowners to pay. This forces <strong>30% budget buffers</strong> and delays.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <div style="font-size: 160px; font-weight: 700; color: #1c1c1e; text-shadow: 0 2px 0 rgba(255,255,255,0.1);">0%</div>
+                <div style="font-size: 24px; letter-spacing: 0.2em; color: var(--text-secondary);">LIQUIDITY</div>
+                <div style="margin-top: 50px; font-size: 20px; color: var(--danger); background: rgba(255, 69, 58, 0.15); padding: 15px 30px; border-radius: 40px;">
+                    MARKET FAILURE
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>PROBLEM STATEMENT</span>
+            <span>02</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 3: THE MECHANISM - CLEARINGHOUSE -->
+    <div class="slide">
+        <div class="tag">THE PROTOCOL</div>
+        <h1>The Algorithmic Clearinghouse</h1>
+        <div class="grid-2">
+            <div>
+                <p style="margin-bottom: 60px;">We built the <strong>Data Bridge</strong> that makes renovation underwriting instant and risk-free.</p>
+                
+                <div class="glass-card" style="padding: 40px; margin-bottom: 30px; display: flex; align-items: center; gap: 30px;">
+                    <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-gold); font-weight: 700;">1</div>
+                    <div>
+                        <strong style="font-size: 24px;">Standardize (The Data)</strong>
+                        <div style="font-size: 18px; margin-top: 5px; color: var(--text-secondary);">Algorithmic Bill-of-Quantities (BOQ) creates a fixed-price contract in seconds.</div>
+                    </div>
+                </div>
+
+                <div class="glass-card" style="padding: 40px; margin-bottom: 30px; display: flex; align-items: center; gap: 30px;">
+                    <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-gold); font-weight: 700;">2</div>
+                    <div>
+                        <strong style="font-size: 24px;">Finance (The Capital)</strong>
+                        <div style="font-size: 18px; margin-top: 5px; color: var(--text-secondary);">We feed this data to banks to unlock a <strong>bundled mortgage</strong> (Asset + Reno).</div>
+                    </div>
+                </div>
+
+                <div class="glass-card" style="padding: 40px; display: flex; align-items: center; gap: 30px;">
+                    <div style="width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent-gold); font-weight: 700;">3</div>
+                    <div>
+                        <strong style="font-size: 24px;">Execute (The Control)</strong>
+                        <div style="font-size: 18px; margin-top: 5px; color: var(--text-secondary);">We hold funds in escrow and pay contractors only on verified milestones.</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mockup-wrapper">
+                <div class="phone">
+                    <img src="http://googleusercontent.com/image_collection/image_retrieval/2469281355563612070" style="width: 100%; height: 100%; object-fit: cover;">
+                    <div style="position: absolute; bottom: 0; width: 100%; padding: 30px; background: linear-gradient(to top, black, transparent);">
+                        <div style="color: var(--success); font-size: 14px; font-weight: 600; text-transform: uppercase;">● Zero Variance Guaranteed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>SOLUTION ARCHITECTURE</span>
+            <span>03</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 4: TRACTION - THE EVIDENCE -->
+    <div class="slide">
+        <div class="tag">TRACTION</div>
+        <h1>It Works.</h1>
+        <div class="grid-3" style="margin-top: 60px;">
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: center; height: 400px; text-align: center;">
+                <div class="stat-value">$10k+</div>
+                <div class="stat-label">Monthly Revenue</div>
+                <div style="font-size: 16px; color: var(--success); margin-top: 20px;">▲ 15% MoM Growth</div>
+            </div>
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: center; height: 400px; text-align: center; border-color: var(--accent-gold);">
+                <div class="stat-value" style="color: var(--accent-gold);">28%</div>
+                <div class="stat-label">Realized Margin</div>
+                <div style="font-size: 16px; color: var(--text-secondary); margin-top: 20px;">Beating 25% Target</div>
+            </div>
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: center; height: 400px; text-align: center;">
+                <div class="stat-value">100+</div>
+                <div class="stat-label">Agent Partners</div>
+                <div style="font-size: 16px; color: var(--text-secondary); margin-top: 20px;">Zero CAC Channel</div>
+            </div>
+        </div>
+        <div style="margin-top: 60px; display: flex; justify-content: center; gap: 60px; align-items: center; opacity: 0.6;">
+            <span style="font-size: 24px; font-weight: 600; color: #FFF;">ANTLER</span>
+            <span style="width: 1px; height: 30px; background: #333;"></span>
+            <span style="font-size: 24px; font-weight: 600; color: #FFF;">STARTUPBOOTCAMP</span>
+            <span style="width: 1px; height: 30px; background: #333;"></span>
+            <span style="font-size: 24px; font-weight: 600; color: #FFF;">BONBILLO</span>
+        </div>
+        <div class="slide-footer">
+            <span>METRICS</span>
+            <span>04</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 5: UNIT ECONOMICS - THE ENGINE -->
+    <div class="slide">
+        <div class="tag">BUSINESS MODEL</div>
+        <h1>Cash-Efficient Growth</h1>
+        <div class="grid-2">
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: center;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; margin-bottom: 30px;">
+                    <span style="color: var(--text-secondary); font-size: 24px;">Avg Project Value</span>
+                    <span style="font-weight: 600; font-size: 24px;">$5,000</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; margin-bottom: 30px;">
+                    <span style="color: var(--text-secondary); font-size: 24px;">Gross Margin (32%)</span>
+                    <span style="font-weight: 600; font-size: 24px;">$1,600</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 30px; margin-bottom: 30px;">
+                    <span style="color: var(--text-secondary); font-size: 24px;">CAC</span>
+                    <span style="font-weight: 600; font-size: 24px; color: var(--danger);">($150)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; color: var(--accent-gold);">
+                    <span style="font-weight: 600; font-size: 32px;">Net Contribution</span>
+                    <span style="font-weight: 700; font-size: 32px;">$1,450</span>
+                </div>
+            </div>
+            <div style="padding-left: 60px;">
+                <h3 style="font-size: 28px; color: #FFF; margin-bottom: 40px;">Why we scale faster:</h3>
+                <div style="margin-bottom: 40px;">
+                    <strong style="font-size: 24px; color: #FFF; display: block; margin-bottom: 10px;">Asset Light</strong>
+                    <p style="font-size: 20px;">We monetize the flow, not the inventory. We never buy the house.</p>
+                </div>
+                <div style="margin-bottom: 40px;">
+                    <strong style="font-size: 24px; color: #FFF; display: block; margin-bottom: 10px;">Negative Working Capital</strong>
+                    <p style="font-size: 20px;">Customer pays us <strong>before</strong> we pay the contractor.</p>
+                </div>
+                <div>
+                    <strong style="font-size: 24px; color: var(--accent-gold); display: block; margin-bottom: 10px;">2 Month Payback</strong>
+                    <p style="font-size: 20px;">CAC is recovered instantly via the project margin.</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>UNIT ECONOMICS</span>
+            <span>05</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 6: GTM - THE FLYWHEEL -->
+    <div class="slide">
+        <div class="tag">GO-TO-MARKET</div>
+        <h1>B2B2C Channel Engine</h1>
+        <div class="grid-2">
+            <div>
+                <p style="font-size: 36px; color: #FFF; margin-bottom: 60px;">We don't chase customers. We empower the gatekeepers.</p>
+                
+                <div class="glass-card" style="padding: 30px; margin-bottom: 30px; border-left: 4px solid var(--accent-gold);">
+                    <strong style="color: #FFF; font-size: 24px;">1. Property Agents</strong>
+                    <p style="font-size: 18px; margin-top: 10px; margin-bottom: 0;">Agents are incentivized to bring us deals because we <strong>close transactions</strong> that would otherwise fail due to "ugly house" rejection.</p>
+                </div>
+
+                <div class="glass-card" style="padding: 30px; border-left: 4px solid var(--text-secondary);">
+                    <strong style="color: #FFF; font-size: 24px;">2. Bank Partners</strong>
+                    <p style="font-size: 18px; margin-top: 10px; margin-bottom: 0;">Banks push Secha to mortgage applicants to increase loan utilization and secure the asset value.</p>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; height: 100%;">
+                <div style="margin-bottom: 60px;">
+                    <div class="stat-value" style="color: var(--success); font-size: 80px;">$150</div>
+                    <div class="stat-label">CUSTOMER ACQUISITION COST</div>
+                </div>
+                <div style="width: 100px; height: 1px; background: rgba(255,255,255,0.2); margin-bottom: 60px;"></div>
+                <div>
+                    <div class="stat-value" style="font-size: 80px;">10x</div>
+                    <div class="stat-label">LTV / CAC RATIO</div>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>STRATEGY</span>
+            <span>06</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 7: MARKET - BOTTOM UP -->
+    <div class="slide">
+        <div class="tag">MARKET DEPTH</div>
+        <h1>Fulfilling the Backlog</h1>
+        <div class="grid-2">
+            <div>
+                <p style="font-size: 32px; margin-bottom: 60px;">We are not creating new demand. We are unlocking existing, pent-up demand.</p>
+                
+                <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+                    <div style="flex: 1;">
+                        <strong style="font-size: 24px;">The Backlog</strong>
+                        <div style="height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; margin-top: 10px;">
+                            <div style="width: 100%; height: 100%; background: #FFF; border-radius: 6px;"></div>
+                        </div>
+                    </div>
+                    <div style="width: 150px; font-size: 24px; font-weight: 700; text-align: right;">15M Homes</div>
+                </div>
+                <p style="font-size: 16px; margin-bottom: 60px;">Govt target for new mortgages by 2030.</p>
+
+                <div style="display: flex; align-items: center; gap: 30px; margin-bottom: 30px;">
+                    <div style="flex: 1;">
+                        <strong style="font-size: 24px;">Ticket Size</strong>
+                        <div style="height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; margin-top: 10px;">
+                            <div style="width: 40%; height: 100%; background: var(--accent-gold); border-radius: 6px;"></div>
+                        </div>
+                    </div>
+                    <div style="width: 150px; font-size: 24px; font-weight: 700; text-align: right; color: var(--accent-gold);">$5,000</div>
+                </div>
+                <p style="font-size: 16px;">Average renovation spend per unit.</p>
+            </div>
+            
+            <div class="glass-card" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+                <div class="stat-label" style="margin-bottom: 20px;">SERVICEABLE MARKET (SAM)</div>
+                <div class="stat-value" style="color: var(--accent-gold); font-size: 120px;">$5B</div>
+                <p style="font-size: 24px; margin-top: 20px;">Digital-First Homeowners in Tier 1 Cities</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>MARKET SIZING</span>
+            <span>07</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 8: TEAM -->
+    <div class="slide">
+        <div class="tag">THE TEAM</div>
+        <h1>Builder x Banker</h1>
+        <div class="grid-2">
+            <div class="glass-card" style="display: flex; align-items: flex-start; gap: 40px; padding: 50px;">
+                <img src="http://googleusercontent.com/image_collection/image_retrieval/1723162369650430096" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent-gold);">
+                <div>
+                    <h3 style="margin: 0 0 10px 0; font-size: 32px; color: #FFF;">Josephine Lovensa</h3>
+                    <div style="color: var(--accent-gold); font-weight: 700; font-size: 16px; margin-bottom: 20px;">CEO & FOUNDER</div>
+                    <p style="font-size: 18px;">Ex-LingoTalk (EdTech Exit). Antler Alumni.</p>
+                    <p style="font-size: 18px; font-style: italic; color: #FFF;">"I built the ops for 50+ projects."</p>
+                </div>
+            </div>
+            
+            <div class="glass-card" style="display: flex; align-items: flex-start; gap: 40px; padding: 50px;">
+                <div style="width: 120px; height: 120px; border-radius: 50%; background: #222; display: flex; align-items: center; justify-content: center; border: 1px solid var(--text-secondary);">
+                    <i class="fa-solid fa-user" style="font-size: 40px; color: #555;"></i>
+                </div>
+                <div>
+                    <h3 style="margin: 0 0 10px 0; font-size: 32px; color: #FFF;">Leonardi Andika</h3>
+                    <div style="color: var(--accent-gold); font-weight: 700; font-size: 16px; margin-bottom: 20px;">CFO & CO-FOUNDER</div>
+                    <p style="font-size: 18px;">Ex-BCG. Infrastructure Finance Expert.</p>
+                    <p style="font-size: 18px; font-style: italic; color: #FFF;">"I structured the bank deals."</p>
+                </div>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>FOUNDER MARKET FIT</span>
+            <span>08</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 9: THE VISION -->
+    <div class="slide">
+        <div class="tag">THE VISION</div>
+        <h1>The Housing Super App</h1>
+        <div class="grid-2">
+            <div class="glass-card" style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+                <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 20px;">PHASE 1 (NOW)</div>
+                <strong style="font-size: 48px; color: #FFF; margin-bottom: 20px;">Renovation Marketplace</strong>
+                <p style="font-size: 24px;">Monetizing Execution & Transaction Flow</p>
+            </div>
+            <div class="glass-card" style="height: 100%; display: flex; flex-direction: column; justify-content: center; border-color: var(--accent-gold); background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), transparent);">
+                <div style="font-size: 16px; color: var(--accent-gold); margin-bottom: 20px;">PHASE 2 (FUTURE)</div>
+                <strong style="font-size: 48px; color: #FFF; margin-bottom: 20px;">Proprietary Credit Score</strong>
+                <p style="font-size: 24px;">Monetizing Risk Data & Financial Products</p>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>LONG TERM STRATEGY</span>
+            <span>09</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 10: THE ASK -->
+    <div class="slide">
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;">
+            <div class="tag">THE OFFERING</div>
+            <h1 style="font-size: 180px; background: linear-gradient(135deg, #FCE38A 0%, #D4AF37 50%, #89660B 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0;">$1M</h1>
+            <p style="font-size: 42px; color: #FFF; margin-bottom: 80px;">Seed Round Financing</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 60px; width: 100%; max-width: 1400px;">
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 10px;">TARGET</div>
+                    <div style="font-size: 48px; font-weight: 700; color: #FFF;">$2M ARR</div>
+                </div>
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 10px;">TIMELINE</div>
+                    <div style="font-size: 48px; font-weight: 700; color: #FFF;">24 Mo</div>
+                </div>
+                <div class="glass-card" style="padding: 40px;">
+                    <div style="font-size: 16px; color: var(--text-secondary); margin-bottom: 10px;">FOCUS</div>
+                    <div style="font-size: 48px; font-weight: 700; color: #FFF;">Scale</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 100px; padding: 20px 40px; border: 1px solid var(--border-subtle); border-radius: 50px;">
+                <span style="font-size: 24px; color: var(--accent-gold); font-weight: 600;">invest@sechahome.com</span>
+            </div>
+        </div>
+        <div class="slide-footer">
+            <span>INVESTMENT OPPORTUNITY</span>
+            <span>10</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- AUTO-SCALE SCRIPT -->
+<script>
+    function scaleDeck() {
+        const container = document.getElementById('deck-container');
+        const windowWidth = window.innerWidth;
+        const slideWidth = 1920; 
+        
+        // Scale for screen viewing, disable for print
+        if (windowWidth < slideWidth) {
+            const scale = windowWidth / slideWidth;
+            container.style.transform = `scale(${scale})`;
+        } else {
+            container.style.transform = 'scale(1)';
+        }
+    }
+    window.addEventListener('resize', scaleDeck);
+    window.addEventListener('load', scaleDeck);
+</script>
+
+</body>
+</html>
